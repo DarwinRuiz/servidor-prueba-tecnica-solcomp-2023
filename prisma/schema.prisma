@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Clientes {
+  id_cliente         Int      @id(map: "PK__Clientes__677F38F5A2B13508") @default(autoincrement())
+  nombre             String?  @db.VarChar(50)
+  apellido           String?  @db.VarChar(50)
+  correo_electronico String?  @db.VarChar(100)
+  Ventas             Ventas[]
+}
+
+model Productos {
+  id_producto     Int      @id(map: "PK__Producto__FF341C0D6FF0FCFA") @default(autoincrement())
+  codigo_barras   String?  @db.VarChar(50)
+  nombre_producto String?  @db.VarChar(100)
+  descripcion     String?  @db.VarChar(255)
+  categoria       String?  @db.VarChar(50)
+  precio          Decimal? @db.Decimal(10, 2)
+  Ventas          Ventas[]
+}
+
+model Ventas {
+  id_venta    Int        @id(map: "PK__Ventas__459533BF1B99FA25") @default(autoincrement())
+  fecha_venta DateTime?  @db.Date
+  id_cliente  Int?
+  id_producto Int?
+  cantidad    Int?
+  total_venta Decimal?   @db.Decimal(10, 2)
+  Clientes    Clientes?  @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "FK__Ventas__id_clien__3B75D760")
+  Productos   Productos? @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction, map: "FK__Ventas__id_produ__3C69FB99")
+}
