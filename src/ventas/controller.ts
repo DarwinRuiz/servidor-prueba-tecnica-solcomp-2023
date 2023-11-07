@@ -18,6 +18,32 @@ export class VentasController {
         }
     }
 
+    public obtenerTotalVentas = async (request: Request, response: Response) => {
+        try {
+            const totalVentas = await prisma.$queryRaw`SELECT SUM(total_venta) AS total_ventas FROM ventas;`;
+            return response.status(200).json({
+                data: totalVentas,
+                status: 200,
+                message: 'Total de las Ventas Realizadas'
+            })
+        } catch (error) {
+            return response.status(500).json({ error: `${error}` });
+        }
+    }
+
+    public obtenerTotalUnidadesVendidas = async (request: Request, response: Response) => {
+        try {
+            const totalUnidades = await prisma.$queryRaw`SELECT SUM(cantidad) AS total_unidades FROM ventas;`;
+            return response.status(200).json({
+                data: totalUnidades,
+                status: 200,
+                message: 'Total de las unidades Vendidas'
+            })
+        } catch (error) {
+            return response.status(500).json({ error: `${error}` });
+        }
+    }
+
     public cargarArchivoVentas = async (request: Request, response: Response) => {
         try {
 

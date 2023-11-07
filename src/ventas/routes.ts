@@ -15,6 +15,8 @@ export class VentasRoutes {
         const dominioController = new VentasController();
 
         router.get('/', dominioController.getData);
+        router.get('/obtenerTotalVentas', dominioController.obtenerTotalVentas);
+        router.get('/obtenerTotalUnidadesVendidas', dominioController.obtenerTotalUnidadesVendidas);
         router.post('/carga-archivo', upload.single('file'), dominioController.cargarArchivoVentas);
 
         return router;
