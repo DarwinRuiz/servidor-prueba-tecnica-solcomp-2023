@@ -1,7 +1,10 @@
 import { Router, Request, Response } from "express";
 import { VentasController } from "./controller";
+import multer from 'multer';
 
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 export class VentasRoutes {
 
@@ -12,6 +15,7 @@ export class VentasRoutes {
         const dominioController = new VentasController();
 
         router.get('/', dominioController.getData);
+        router.post('/carga-archivo', upload.single('file'), dominioController.cargarArchivoVentas);
 
         return router;
     }
